@@ -1,0 +1,57 @@
+<h2>{{ departmentName ?? (isUnassigned ? 'Unassigned' : ('Department ' + departmentId)) }}</h2>
+
+<div *ngIf="error" class="error">
+  {{ error }}
+</div>
+
+<div *ngIf="loading">Loading...</div>
+
+<div class="section">
+  <h3>Add employee</h3>
+  <input placeholder="Full name" [(ngModel)]="fullName" class="input input-name" />
+  <input placeholder="Address" [(ngModel)]="address" class="input input-address" />
+  <input placeholder="Phone" [(ngModel)]="phone" class="input input-phone" />
+  <input placeholder="Email" [(ngModel)]="email" class="input input-email" />
+  <button (click)="addEmployee()" class="btn">Add</button>
+</div>
+
+<div class="section">
+  <h3>Search employees</h3>
+  <input placeholder="Search by name" [(ngModel)]="searchQuery" (input)="onSearch()"
+         class="input input-name" />
+  <div *ngIf="searchResults.length > 0" class="search-results">
+    <div
+      *ngFor="let r of searchResults"
+      class="search-result-row clickable"
+      (click)="openEmployee(r)"
+    >
+      <strong>{{ r.fullName }}</strong> — {{ r.departmentName ?? 'Unassigned' }}
+    </div>
+  </div>
+</div>
+
+<h3>Employees</h3>
+
+<div *ngIf="employees.length === 0 && !loading">
+  No employees.
+</div>
+
+<div
+  *ngFor="let e of employees"
+  class="employee-card clickable"
+  (click)="openEmployeeCard(e)"
+>
+  <div class="employee-card-row">
+    <div>
+      <strong>{{ e.fullName }}</strong>
+      <div class="employee-email" *ngIf="e.email">{{ e.email }}</div>
+    </div>
+
+    <button
+      (click)="deleteEmployee(e); $event.stopPropagation()"
+      class="btn btn-danger"
+    >
+      Delete
+    </button>
+  </div>
+</div>

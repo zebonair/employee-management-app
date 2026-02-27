@@ -1,0 +1,36 @@
+<div *ngIf="error" class="error">  {{ error }}
+</div>
+
+<div *ngIf="loading">Loading...</div>
+
+<div class="departments">
+  <div
+    class="department-card"
+    *ngFor="let d of counts"
+    (click)="openDepartment(d)"
+  >
+    <span class="count">{{ d.count }}</span>
+    <p>{{ d.id === null ? 'Unassigned' : d.name }}</p>
+
+    <a
+      class="delete-link"
+      href="#"
+      *ngIf="d.id !== null"
+      (click)="deleteDepartment(d, $event)"
+    >
+      Delete
+    </a>
+  </div>
+</div>
+
+<div class="add-department-row">
+  <input
+    type="text"
+    placeholder="New department name"
+    [(ngModel)]="newDepartmentName"
+    class="add-department-input"
+  />
+  <button class="add-department" (click)="addDepartment()">
+    Add Department
+  </button>
+</div>
